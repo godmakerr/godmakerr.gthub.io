@@ -16,6 +16,11 @@
 </head>
 <body>
  
+    <div id="info">
+        <span id="timer">Time: 0m 0s</span>
+        <span id="steps">Steps: 0</span>
+      </div>
+          
     <canvas id="canvas"></canvas> 
     <script>
     c=document.getElementById("canvas")
@@ -42,6 +47,56 @@
     boxs[i][j]=0
 }
 }
+var timer = document.getElementById("timer"); // 获取计时器的 HTML 元素
+var steps = document.getElementById("steps"); // 获取步数计数的 HTML 元素
+var startTime; // 计时器开始时间
+var elapsedTime = 0; // 经过的时间（以毫秒为单位）
+var stepCount = 0; // 步数计数
+
+// 更新计时器显示
+function updateTimer() {
+  var currentTime = Date.now();
+  elapsedTime = currentTime - startTime;
+  var seconds = Math.floor(elapsedTime / 1000);
+  var minutes = Math.floor(seconds / 60);
+  seconds %= 60;
+  timer.textContent = "Time: " + minutes + ":" + seconds + "";
+}
+
+// 更新步数计数
+function updateStepCount() {
+  steps.textContent = "Steps: " + stepCount + "";
+}
+
+// 游戏开始时启动计时器
+function startTimer() {
+  startTime = Date.now();
+  setInterval(updateTimer, 1000); // 每秒更新一次计时器
+}
+
+// 每次落子时增加步数计数
+function incrementStepCount() {
+  stepCount++;
+  updateStepCount();
+}
+
+// 在落子的逻辑中调用 incrementStepCount() 函数来增加步数计数
+function gostep(x1, y1, me) {
+  // ...
+  if (boxs[x][y] == 0) {
+    gostep(x, y, me);
+    boxs[x][y] = 1;
+    // ...
+    incrementStepCount(); // 增加步数计数
+    // ...
+  }
+  // ...
+}
+
+// 在游戏开始时调用 startTimer() 函数来启动计时器
+startTimer();
+
+
 //随机分数，自己改吧
 function randfs(){
 for (var i=1;i<5;i++){
@@ -176,6 +231,7 @@ c.onclick=function (e){
     boxs[x][y]=1
     //步数加一
     bs++
+    incrementStepCount();
     //检测你是否赢
     for (var i=0;i<count;i++){
     if (wins[x][y][i]){
