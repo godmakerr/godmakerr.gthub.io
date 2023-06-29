@@ -52,7 +52,41 @@ var steps = document.getElementById("steps"); // 获取步数计数的 HTML 元�
 var startTime; // 计时器开始时间
 var elapsedTime = 0; // 经过的时间（以毫秒为单位）
 var stepCount = 0; // 步数计数
+var losegameImage = document.createElement("img"); // 创建图片元素
+losegameImage.src = "lose_game_over_image.jpg"; // 设置图片源路径
+var wingameImage = document.createElement("img"); // 创建图片元素
+wingameImage.src = "win_game_over_image.jpg"; // 设置图片源路径
 
+function showloseGameOverImage() {
+    // 在showloseGameOverImage函数中修改以下代码段
+
+// 设置图片样式
+losegameImage.style.position = "absolute";
+losegameImage.style.width = c.width + "px";
+losegameImage.style.height = c.height + "px";
+losegameImage.style.left = "50%";
+losegameImage.style.top = "50%";
+losegameImage.style.transform = "translate(-50%, -50%)";
+
+// 将图片添加到 canvas 的父节点中
+c.parentNode.appendChild(losegameImage);
+
+}
+function showwinGameOverImage() {
+    // 在showloseGameOverImage函数中修改以下代码段
+
+// 设置图片样式
+losegameImage.style.position = "absolute";
+losegameImage.style.width = c.width + "px";
+losegameImage.style.height = c.height + "px";
+losegameImage.style.left = "50%";
+losegameImage.style.top = "50%";
+losegameImage.style.transform = "translate(-50%, -50%)";
+
+// 将图片添加到 canvas 的父节点中
+c.parentNode.appendChild(wingameImage);
+
+}
 // 更新计时器显示
 function updateTimer() {
   var currentTime = Date.now();
@@ -60,7 +94,7 @@ function updateTimer() {
   var seconds = Math.floor(elapsedTime / 1000);
   var minutes = Math.floor(seconds / 60);
   seconds %= 60;
-  timer.textContent = "Time: " + minutes + " : " + seconds + "";
+  timer.textContent = "Time: " + minutes + " min " + seconds + " s";
 }
 
 // 更新步数计数
@@ -220,6 +254,7 @@ else{
 c.onclick=function (e){
     //检测游戏是否结束
     if (over){
+    
     return
 }
     //使棋子落在坐标系上
@@ -241,7 +276,7 @@ c.onclick=function (e){
         over=true
     setTimeout(function (){
     alert("终于赢了，奖励一个么么😙")
-},300);
+},300);showwinGameOverImage();
 }
 }
 }
@@ -340,7 +375,7 @@ for (var i=0;i<count;i++){
         over=true
     setTimeout(function (){
     alert("你输了，小垃圾。呵呵，真是可爱呢😊")
-},300);
+},300);showloseGameOverImage();
 }
 }
 }
